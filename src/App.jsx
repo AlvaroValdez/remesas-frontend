@@ -1,6 +1,6 @@
 import React from 'react'
 import SendRemesa from './pages/SendRemesa'
-import './styles.css'
+//import './styles.css'
 
 export default function App() {
   return (
