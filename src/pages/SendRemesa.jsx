@@ -4,6 +4,7 @@ import axios from 'axios'
 export default function SendRemesa() {
   const [monto, setMonto] = useState('')
   const [cuentaDestino, setCuentaDestino] = useState('')
+  const [memo, setMemo] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [result, setResult] = useState(null)
@@ -62,7 +63,16 @@ export default function SendRemesa() {
             required
           />
         </label>
-
+        <label>
+          Memo (descripcion):
+          <input
+            type="text"
+            value={memo}
+            onChange={e => setMemo(e.target.value)}
+            placeholder="Escribe tu mensaje"
+            required
+          />
+        </label>
         <button type="submit" disabled={loading || !monto || !cuentaDestino}>
           {loading ? 'Enviando…' : 'Enviar remesa'}
         </button>
