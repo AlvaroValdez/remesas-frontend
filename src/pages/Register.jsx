@@ -1,79 +1,41 @@
 // src/pages/Register.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
-
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
+    e.preventDefault(); setError(null);
     try {
-      const { data } = await axios.post(
-        `${API_URL}/api/auth/register`,
-        { email, password }
-      );
-
-      // Guarda el JWT y la Stellar publicKey en localStorage
+      const { data } = await axios.post(`${API}/api/auth/register`, { email, password });
       localStorage.setItem('token', data.token);
-      localStorage.setItem('publicKey', data.publicKey);
-
-      // Redirige al dashboard o a la pantalla de envío de remesas
-      navigate('/dashboard');
+      window.location.href = '/dashboard';
     } catch (err) {
-      console.error('Registro error:', err);
-      const msg = err.response?.data?.error || err.message || 'Error en registro';
-      setError(msg);
-    } finally {
-      setLoading(false);
+      setError(err.response?.data?.error || 'Error en registro');
     }
   };
 
   return (
-    <div className="auth-container">
-      <h2>Crear una cuenta</h2>
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <label>
-          Correo electrónico:
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="tu@correo.com"
-            required
-          />
-        </label>
-
-        <label>
-          Contraseña:
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder="••••••••"
-            required
-          />
-        </label>
-
-        <button type="submit" disabled={loading}>
-          {loading ? 'Registrando…' : 'Registrar'}
-        </button>
-
-        {error && (
-          <div className="error-message">
-            ❌ {error}
+    <div className="row justify-content-center">
+      <div className="col-md-5">
+        <h2 className="mb-4 text-dark">Registrarse</h2>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <input type="email" className="form-control" value={email} onChange={e=>setEmail(e.target.value)} required />
           </div>
-        )}
-      </form>
+          <div className="mb-3">
+            <label className="form-label">Password</label>
+            <input type="password" className="form-control" value={password} onChange={e=>setPassword(e.target.value)} required />
+          </div>
+          <button className="btn btn-primary w-100" type="submit">Crear Cuenta</button>
+        </form>
+      </div>
     </div>
   );
 }
