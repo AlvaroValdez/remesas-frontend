@@ -10,7 +10,7 @@ export default function NavBar() {
     <nav className="navbar navbar-expand-md navbar-dark bg-dark">
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
-          <img src="/logo.png" alt="Logo" height="30"/>
+          <img src="src/img/logo_ok.png" alt="Logo" height="30"/>
         </NavLink>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
           <span className="navbar-toggler-icon" />
